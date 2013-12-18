@@ -32,3 +32,13 @@ compress :: (Eq a) => [a] -> [a]
 compress [] = []
 compress [x] = [x]
 compress (x:(y:xs)) = if (x==y) then compress (x:xs) else x:(compress (y:xs))
+
+pack :: (Eq a) => [a] -> [[a]]
+pack [] = []
+pack (x:xs) = (x : (takeWhile (==x) xs)) : pack (dropWhile (==x) xs)
+--pack = foldr f []
+--  where f x [] = [[x]]
+--        f x (y:ys) = if (x == y!!0) then (x:y):ys else [x]:(y:ys)
+
+encode :: (Eq a) => [a] -> [(Int,a)]
+encode xs = map (\x -> (length x, x!!0)) $ pack xs
