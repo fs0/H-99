@@ -41,4 +41,4 @@ pack (x:xs) = (x : (takeWhile (==x) xs)) : pack (dropWhile (==x) xs)
 --        f x (y:ys) = if (x == y!!0) then (x:y):ys else [x]:(y:ys)
 
 encode :: (Eq a) => [a] -> [(Int,a)]
-encode xs = map (\x -> (length x, x!!0)) $ pack xs
+encode = map (\x -> (length x, x!!0)) . pack
