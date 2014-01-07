@@ -17,3 +17,10 @@ decodeModified (x:xs) = (getNumber x) ++ decodeModified xs
     where
         getNumber (Single x) = [x]
         getNumber (Multiple x y) = [ y | _ <- [1..x] ]
+
+encodeDirect :: (Eq a) => [a] -> [Number a]
+encodeDirect [] = []
+encodeDirect (x:xs) = (makeNumber (x:(takeWhile (==x) xs))) : encodeDirect (dropWhile (==x) xs)
+    where
+        makeNumber [x] = Single x
+        makeNumber xs = Multiple (length xs) (xs!!0)
