@@ -11,3 +11,9 @@ encodeModified = map checkNumber . map (\x -> (length x, x!!0)) . pack
         checkNumber (1,c) = Single c
         checkNumber (x,c) = Multiple x c
 
+decodeModified :: [Number a] -> [a]
+decodeModified [] = []
+decodeModified (x:xs) = (getNumber x) ++ decodeModified xs
+    where
+        getNumber (Single x) = [x]
+        getNumber (Multiple x y) = [ y | _ <- [1..x] ]
