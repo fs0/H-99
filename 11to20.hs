@@ -24,3 +24,31 @@ encodeDirect (x:xs) = (makeNumber (x:(takeWhile (==x) xs))) : encodeDirect (drop
     where
         makeNumber [x] = Single x
         makeNumber xs = Multiple (length xs) (xs!!0)
+
+dupli :: [a] -> [a]
+dupli [] = []
+dupli (x:xs) = [x,x] ++ dupli xs
+
+repli :: [a] -> Int -> [a]
+repli [] _ = []
+repli (x:xs) n = replicate n x ++ repli xs n
+-- pointfree
+repli' :: [a] -> Int -> [a]
+repli' = flip $ concatMap . replicate
+
+dropEvery :: [a] -> Int -> [a]
+dropEvery [] n = []
+dropEvery xs n = take (n-1) xs ++ dropEvery (drop n xs) n
+
+split :: [a] -> Int -> [[a]]
+split xs n = take' n xs : [drop' n xs]
+    where
+        take' _ [] = []
+        take' 0 _ = []
+        take' n (x:xs) = x : take' (n-1) xs
+        drop' _ [] = []
+        drop' 0 xs = xs
+        drop' n (x:xs) = drop' (n-1) xs
+
+slice :: [a] -> Int -> Int -> [a]
+slice xs i j = take (j-i+1) $ drop (i-1) xs
