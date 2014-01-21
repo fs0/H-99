@@ -52,3 +52,18 @@ split xs n = take' n xs : [drop' n xs]
 
 slice :: [a] -> Int -> Int -> [a]
 slice xs i j = take (j-i+1) $ drop (i-1) xs
+
+rotate :: [a] -> Int -> [a]
+rotate xs n = if n < 0 then
+                (drop shiftNeg xs) ++ (take shiftNeg xs)
+              else
+                (drop  shiftPos xs) ++ (take shiftPos xs)
+              where
+                len = length xs
+                shiftNeg = mod (len + n) len
+                shiftPos = mod n len
+
+removeAt :: Int -> [a] -> (a, [a])
+--removeAt 1 (x:xs) = (x,xs)
+--removeAt pos (x:xs) = (((x:xs)!!(pos-1)), [x] ++ snd ( removeAt (pos-1) xs)))
+removeAt pos xs = (xs!!(pos-1), take (pos-1) xs ++ drop pos xs)
