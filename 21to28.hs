@@ -14,10 +14,8 @@ range n m = [n..m]
 -- Problem 24
 -- Problem 25
 
--- Problem 26 TODO
-perms :: [a] -> [[a]]
-perms [] = [[]]
-perms (x:xs) = concat $ map (put x) $ perms xs 
-    where 
-        put x [] = [[x]]
-        put x (y:ys) = (x:y:ys) : (map (y:) $ put x ys)
+-- Problem 26
+combinations :: Int -> [a] -> [[a]]
+combinations 0 _ = [[]]
+combinations _ [] = []
+combinations n (x:xs) = (map (x:) (combinations (n-1) xs)) ++ (combinations n xs)
