@@ -19,3 +19,11 @@ combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]
 combinations _ [] = []
 combinations n (x:xs) = (map (x:) (combinations (n-1) xs)) ++ (combinations n xs)
+
+-- Problem 28 a)
+lsort :: [[a]] -> [[a]]
+lsort [] = []
+lsort (xs:xss) = s ++ [xs] ++ b
+    where
+        s = lsort [ a | a <- xss, (length a) <= (length xs) ]
+        b = lsort [ a | a <- xss, (length a) >  (length xs) ]
