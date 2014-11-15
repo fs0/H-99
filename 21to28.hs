@@ -1,3 +1,6 @@
+import System.Random
+
+
 -- Problem 21
 insertAt :: a -> [a] -> Int -> [a]
 insertAt c xs 1 = c:xs
@@ -9,8 +12,27 @@ insertAt c (x:xs) p | p <= 0                = error "start at 1"
 range :: Int -> Int -> [Int]
 range n m = [n..m]
 
---TODO (no System.Random)
+
+-- haskell-tf-random
+-- http://hackage.haskell.org/package/tf-random
+
 -- Problem 23
+
+rnd_select :: [a] -> Integer -> IO [a]
+rnd_select xs 1 = randomElement xs
+rnd_select xs n
+    | n < 0 = error "invalid number"
+    | otherwise = do
+        l <- randomElement xs
+        b <- rnd_select xs (n-1)
+        return $ l++b
+
+randomElement :: [a] -> IO [a]
+randomElement [] = error "empty list"
+randomElement xs = do
+    i <- randomRIO (0,(length xs)-1)
+    return $ [xs!!i]
+
 -- Problem 24
 -- Problem 25
 
